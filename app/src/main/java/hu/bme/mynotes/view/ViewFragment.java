@@ -16,6 +16,7 @@ import hu.bme.mynotes.R;
 import io.noties.markwon.Markwon;
 
 public class ViewFragment extends Fragment {
+    private String text;
     private Markwon markwon;
     private TextView textContainer;
 
@@ -34,9 +35,15 @@ public class ViewFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         textContainer = view.findViewById(R.id.textContainer);
+        if (text != null) {
+            markwon.setMarkdown(textContainer, text);
+        }
     }
 
     public void setText(String text) {
-        markwon.setMarkdown(textContainer, text);
+        this.text = text;
+        if (textContainer != null) {
+            markwon.setMarkdown(textContainer, text);
+        }
     }
 }

@@ -12,17 +12,18 @@ import hu.bme.mynotes.business.NoteEditor;
 import hu.bme.mynotes.view.SectionsPagerAdapter;
 
 import static hu.bme.mynotes.MainActivity.NOTE_KEY;
+import static hu.bme.mynotes.view.SectionsPagerAdapter.VIEW_PAGE;
 
 public class NoteActivity extends AppCompatActivity {
     private SectionsPagerAdapter sectionsPagerAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
 
         sectionsPagerAdapter = new SectionsPagerAdapter(
-                this, getSupportFragmentManager()
+            this, getSupportFragmentManager()
         );
 
         ViewPager viewPager = findViewById(R.id.view_pager);
@@ -37,14 +38,10 @@ public class NoteActivity extends AppCompatActivity {
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
 
-        String text = getIntent().getStringExtra(NOTE_KEY);
-        if (text != null) {
-            sectionsPagerAdapter.setTextForEditor(text);
-        }
-
         String startingScreen = getIntent().getStringExtra(NOTE_KEY);
+        sectionsPagerAdapter.setTextForEditor(NoteEditor.getInstance().getEditedNote().content);
         if(startingScreen != null) {
-            viewPager.setCurrentItem(1);
+            viewPager.setCurrentItem(VIEW_PAGE);
         }
     }
 
