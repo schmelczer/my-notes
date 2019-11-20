@@ -1,6 +1,7 @@
 package hu.bme.mynotes;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import hu.bme.mynotes.adapter.NoteAdapter;
@@ -9,6 +10,7 @@ import hu.bme.mynotes.data.NoteDatabase;
 import hu.bme.mynotes.business.NoteEditor;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -66,9 +68,32 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenN
         return true;
     }
 
+    @Override
     public void editNote(Note note) {
         NoteEditor.getInstance().startEditing(note);
         startActivity(new Intent(MainActivity.this, NoteActivity.class));
+    }
+
+    @Override
+    public void deleteNote(final Note note) {
+        NoteEditor.getInstance().onNoteDeleted(note);
+        Snackbar.make(findViewById(R.id.main), getResources().getString(R.string.sure_delete), Snackbar.LENGTH_LONG)
+                .setAction("Undo", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        NoteEditor.getInstance().onNoteCreated(note);
+                    }
+                })
+                .setActionTextColor(Color.RED)
+                .show();
+    }
+
+    @Override
+    public void openNote(Note note) {
+        NoteEditor.getInstance().startEditing(note);
+        Intent intent = new Intent(MainActivity.this, NoteActivity.class);
+        intent.putExtra(NOTE_KEY, "open");
+        startActivity(intent);
     }
 
     @Override

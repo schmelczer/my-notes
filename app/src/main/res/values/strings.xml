@@ -8,4 +8,5 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_edit_fragment"># Write *anything* here</string>
     <string name="hello_view_fragment">Hello view fragment</string>
+    <string name="sure_delete">Are you sure about deleting this?</string>
 </resources>

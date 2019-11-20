@@ -11,7 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import java.util.concurrent.Executors;
+
 import hu.bme.mynotes.R;
+import io.noties.markwon.Markwon;
+import io.noties.markwon.editor.MarkwonEditor;
+import io.noties.markwon.editor.MarkwonEditorTextWatcher;
 
 public class EditFragment extends Fragment {
     private EditText input;
@@ -30,6 +35,17 @@ public class EditFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         input = getView().findViewById(R.id.textInput);
+
+        final Markwon markwon = Markwon.create(view.getContext());
+
+        final MarkwonEditor editor = MarkwonEditor.create(markwon);
+
+        input.addTextChangedListener(MarkwonEditorTextWatcher.withPreRender(
+                editor,
+                Executors.newCachedThreadPool(),
+                input));
+
+        editor.process(input.getText());
     }
 
     public String getText() {

@@ -41,6 +41,11 @@ public class NoteActivity extends AppCompatActivity {
         if (text != null) {
             sectionsPagerAdapter.setTextForEditor(text);
         }
+
+        String startingScreen = getIntent().getStringExtra(NOTE_KEY);
+        if(startingScreen != null) {
+            viewPager.setCurrentItem(1);
+        }
     }
 
     @Override

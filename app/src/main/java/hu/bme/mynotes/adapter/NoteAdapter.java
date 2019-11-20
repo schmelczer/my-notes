@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -67,6 +68,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
     public interface OpenNoteListener {
         void editNote(Note note);
+        void deleteNote(Note note);
+        void openNote(Note note);
     }
 
     class NoteViewHolder extends RecyclerView.ViewHolder {
@@ -74,19 +77,31 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         TextView tag1View;
         TextView tag2View;
         TextView tag3View;
-        ImageButton buttonView;
 
         Note note;
 
         NoteViewHolder(View view) {
             super(view);
-            titleView = view.findViewById(R.id.NoteTitle);
-            tag1View = view.findViewById(R.id.NoteTag1);
-            tag2View = view.findViewById(R.id.NoteTag2);
-            tag3View = view.findViewById(R.id.NoteTag3);
-            buttonView = view.findViewById(R.id.OpenButton);
+            titleView = view.findViewById(R.id.noteTitle);
+            tag1View = view.findViewById(R.id.noteTag1);
+            tag2View = view.findViewById(R.id.noteTag2);
+            tag3View = view.findViewById(R.id.noteTag3);
 
-            buttonView.setOnClickListener(new View.OnClickListener() {
+            view.findViewById(R.id.noteBody).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.openNote(note);
+                }
+            });
+
+            view.findViewById(R.id.deleteButton).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.deleteNote(note);
+                }
+            });
+
+            view.findViewById(R.id.editButton).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     listener.editNote(note);

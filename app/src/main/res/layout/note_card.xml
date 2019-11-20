@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -12,14 +12,14 @@
         android:orientation="vertical"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="3">
+        android:layout_weight="3"
+        android:id="@+id/noteBody">
 
         <TextView
-            android:id="@+id/NoteTitle"
+            android:id="@+id/noteTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="A rather long title for my note" />
-
 
         <LinearLayout
             android:id="@+id/tags"
@@ -30,19 +30,19 @@
             android:weightSum="5">
 
             <TextView
-                android:id="@+id/NoteTag1"
+                android:id="@+id/noteTag1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 tools:text="#alma" />
             <TextView
-                android:id="@+id/NoteTag2"
+                android:id="@+id/noteTag2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 tools:text="#alma" />
             <TextView
-                android:id="@+id/NoteTag3"
+                android:id="@+id/noteTag3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -51,16 +51,35 @@
         </LinearLayout>
 
     </LinearLayout>
-    <ImageButton
-        android:id="@+id/OpenButton"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_vertical"
-        android:padding="24dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_open_book" />
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:weightSum="2"
+        android:layout_weight="1">
+        <ImageButton
+            android:id="@+id/editButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:padding="12dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/ic_edit" />
+
+        <ImageButton
+            android:id="@+id/deleteButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:padding="12dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/ic_delete" />
+    </LinearLayout>
 </LinearLayout>
