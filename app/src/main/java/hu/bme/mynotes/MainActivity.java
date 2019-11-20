@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenN
     private RecyclerView recyclerView;
     private NoteAdapter adapter;
     private NoteDatabase database;
-
+    public final static String NOTE_KEY = "note";
 
 
     @Override

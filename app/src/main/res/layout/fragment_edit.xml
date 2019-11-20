@@ -5,9 +5,13 @@
     android:layout_height="match_parent"
     tools:context=".ui.view.EditFragment">
 
-    <TextView
+    <EditText
+        android:inputType="textMultiLine"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="top|start"
+        android:id="@+id/textInput"
+        android:scrollbars="vertical"
         android:text="@string/hello_edit_fragment" />
 
 </FrameLayout>

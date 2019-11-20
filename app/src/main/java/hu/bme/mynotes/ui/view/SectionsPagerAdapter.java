@@ -1,6 +1,9 @@
 package hu.bme.mynotes.ui.view;
 
 import android.content.Context;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -11,6 +14,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import hu.bme.mynotes.R;
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    private EditFragment edit;
+    private ViewFragment view;
 
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
@@ -19,14 +24,16 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
+        edit = new EditFragment();
+        view = new ViewFragment();
     }
 
     @Override
     public Fragment getItem(int position) {
         if(position == 0) {
-            return new EditFragment();
+            return edit;
         } else if (position == 1) {
-            return new ViewFragment();
+            return view;
         }
 
         throw new RuntimeException("No appropriate fragment found.");
@@ -41,5 +48,13 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return TAB_TITLES.length;
+    }
+
+    public String getText(){
+        return edit.getText();
+    }
+
+    public void setText(String text) {
+        view.setText(text);
     }
 }

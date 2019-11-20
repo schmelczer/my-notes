@@ -6,6 +6,6 @@
     <string name="tab_text_2">View</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_edit_fragment">Hello edit fragment</string>
+    <string name="hello_edit_fragment"># Write *anything* here</string>
     <string name="hello_view_fragment">Hello view fragment</string>
 </resources>
