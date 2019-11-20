@@ -1,4 +1,4 @@
-package com.example.mynotes.data;
+package hu.bme.mynotes.data;
 
 import androidx.room.TypeConverter;
 

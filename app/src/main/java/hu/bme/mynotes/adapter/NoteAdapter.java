@@ -1,7 +1,6 @@
-package com.example.mynotes.adapter;
+package hu.bme.mynotes.adapter;
 
 import android.view.LayoutInflater;
-import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -10,8 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mynotes.R;
-import com.example.mynotes.data.Note;
+import hu.bme.mynotes.R;
+import hu.bme.mynotes.data.Note;
 
 import java.util.ArrayList;
 import java.util.List;

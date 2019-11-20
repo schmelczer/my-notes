@@ -1,15 +1,14 @@
-package com.example.mynotes;
+package hu.bme.mynotes;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import com.example.mynotes.adapter.NoteAdapter;
-import com.example.mynotes.data.Note;
-import com.example.mynotes.data.NoteDatabase;
+import hu.bme.mynotes.adapter.NoteAdapter;
+import hu.bme.mynotes.data.Note;
+import hu.bme.mynotes.data.NoteDatabase;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;

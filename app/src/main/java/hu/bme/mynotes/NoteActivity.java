@@ -1,19 +1,13 @@
-package com.example.mynotes;
+package hu.bme.mynotes;
 
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-
-import com.example.mynotes.ui.main.SectionsPagerAdapter;
+import hu.bme.mynotes.ui.view.SectionsPagerAdapter;
 
 public class NoteActivity extends AppCompatActivity {
 
