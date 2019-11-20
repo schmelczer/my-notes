@@ -1,4 +1,4 @@
-package hu.bme.mynotes.ui.view;
+package hu.bme.mynotes.view;
 
 
 import android.os.Bundle;

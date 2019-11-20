@@ -1,13 +1,13 @@
 package hu.bme.mynotes;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import hu.bme.mynotes.adapter.NoteAdapter;
 import hu.bme.mynotes.data.Note;
 import hu.bme.mynotes.data.NoteDatabase;
+import hu.bme.mynotes.business.NoteEditor;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,17 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenNoteListener {
-    private RecyclerView recyclerView;
-    private NoteAdapter adapter;
-    private NoteDatabase database;
     public final static String NOTE_KEY = "note";
 
 
@@ -38,21 +32,31 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenN
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, NoteActivity.class);
-                startActivity(intent);
-            }
-        });
 
-        database = Room.databaseBuilder(
+        NoteDatabase database = Room.databaseBuilder (
                 getApplicationContext(),
                 NoteDatabase.class,
                 "notes"
-        ).build();
+        )
+        .fallbackToDestructiveMigration()
+        .build();
 
-        initRecyclerView();
+        NoteAdapter adapter = new NoteAdapter(this);
+        NoteEditor.initialize(database.getNoteDao(), adapter);
+
+        RecyclerView recyclerView = findViewById(R.id.MainRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NoteEditor.getInstance().startEditing(null);
+                startActivity(new Intent(MainActivity.this, NoteActivity.class));
+            }
+        });
+
+        NoteEditor.getInstance().loadNotesInBackground();
     }
 
     @Override
@@ -60,6 +64,11 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenN
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    public void editNote(Note note) {
+        NoteEditor.getInstance().startEditing(note);
+        startActivity(new Intent(MainActivity.this, NoteActivity.class));
     }
 
     @Override
@@ -75,46 +84,5 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenN
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void initRecyclerView() {
-        recyclerView = findViewById(R.id.MainRecyclerView);
-        adapter = new NoteAdapter(this);
-        loadNotesInBackground();
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    private void loadNotesInBackground() {
-        new AsyncTask<Void, Void, List<Note>>() {
-
-            @Override
-            protected List<Note> doInBackground(Void... voids) {
-                return database.getNoteDao().getAll();
-            }
-
-            @Override
-            protected void onPostExecute(List<Note> notes) {
-                adapter.update(notes);
-            }
-        }.execute();
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    public void onNoteChanged(final Note note) {
-        new AsyncTask<Void, Void, Boolean>() {
-
-            @Override
-            protected Boolean doInBackground(Void... voids) {
-                database.getNoteDao().update(note);
-                return true;
-            }
-
-            @Override
-            protected void onPostExecute(Boolean isSuccessful) {
-                Log.d("MainActivity", "Note update was successful");
-            }
-        }.execute();
     }
 }

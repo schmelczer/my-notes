@@ -1,9 +1,6 @@
-package hu.bme.mynotes.ui.view;
+package hu.bme.mynotes.view;
 
 import android.content.Context;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -56,5 +53,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     public void setText(String text) {
         view.setText(text);
+    }
+
+    public void setTextForEditor(String text) {
+        edit.setText(text);
     }
 }

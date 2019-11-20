@@ -1,5 +1,6 @@
 package hu.bme.mynotes.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
-
     private final List<Note> notes;
 
     private OpenNoteListener listener;
@@ -38,7 +38,9 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
         Note note = notes.get(position);
-        holder.titleView.setText(note.title);
+        holder.titleView.setText(note.content == null ? "null" : note.content);
+        holder.note = note;
+        Log.d("alma", String.valueOf(note.id));
         // TODO tags
     }
 
@@ -52,6 +54,11 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         notifyItemInserted(notes.size() - 1);
     }
 
+    public void remove(Note note) {
+        notes.remove(note);
+        notifyDataSetChanged();
+    }
+
     public void update(List<Note> notes) {
         this.notes.clear();
         this.notes.addAll(notes);
@@ -59,6 +66,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     }
 
     public interface OpenNoteListener {
+        void editNote(Note note);
     }
 
     class NoteViewHolder extends RecyclerView.ViewHolder {
@@ -67,6 +75,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         TextView tag2View;
         TextView tag3View;
         ImageButton buttonView;
+
+        Note note;
 
         NoteViewHolder(View view) {
             super(view);
@@ -79,7 +89,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             buttonView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO
+                    listener.editNote(note);
                 }
             });
         }

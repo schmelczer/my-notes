@@ -15,13 +15,6 @@ public class Note {
     @PrimaryKey(autoGenerate = true)
     public Long id;
 
-    @TypeConverters(DataConverter.class)
-    @ColumnInfo(name = "tags")
-    public List<String> tags;
-
     @ColumnInfo(name = "content")
     public String content;
-
-    @ColumnInfo(name = "title")
-    public String title;
 }

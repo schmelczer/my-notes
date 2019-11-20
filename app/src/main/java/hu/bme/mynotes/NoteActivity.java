@@ -1,21 +1,27 @@
 package hu.bme.mynotes;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-import hu.bme.mynotes.ui.view.SectionsPagerAdapter;
+import hu.bme.mynotes.business.NoteEditor;
+import hu.bme.mynotes.view.SectionsPagerAdapter;
+
+import static hu.bme.mynotes.MainActivity.NOTE_KEY;
 
 public class NoteActivity extends AppCompatActivity {
+    private SectionsPagerAdapter sectionsPagerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
 
-        final SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(
+        sectionsPagerAdapter = new SectionsPagerAdapter(
                 this, getSupportFragmentManager()
         );
 
@@ -30,5 +36,21 @@ public class NoteActivity extends AppCompatActivity {
 
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+
+        String text = getIntent().getStringExtra(NOTE_KEY);
+        if (text != null) {
+            sectionsPagerAdapter.setTextForEditor(text);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        saveChanges();
+        super.onPause();
+    }
+
+    private void saveChanges() {
+        NoteEditor.getInstance().getEditedNote().content = sectionsPagerAdapter.getText();
+        NoteEditor.getInstance().saveEdited();
     }
 }
