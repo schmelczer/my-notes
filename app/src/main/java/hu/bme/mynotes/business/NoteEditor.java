@@ -23,19 +23,22 @@ public class NoteEditor {
     private Set<String> selectedTags;
     private Set<String> tags;
 
+    private OnTagsChanged listener;
+
     private NoteDao dao;
     private NoteAdapter adapter;
 
     private Note editedNote;
 
-    private NoteEditor(NoteDao dao, NoteAdapter adapter) {
+    private NoteEditor(NoteDao dao, NoteAdapter adapter, OnTagsChanged listener) {
         this.dao = dao;
         this.adapter = adapter;
+        this.listener = listener;
         this.selectedTags = new HashSet<>();
     }
 
-    public static void initialize(NoteDao dao, NoteAdapter adapter) {
-       instance = new NoteEditor(dao, adapter);
+    public static void initialize(NoteDao dao, NoteAdapter adapter, OnTagsChanged listener) {
+       instance = new NoteEditor(dao, adapter, listener);
     }
 
     public static NoteEditor getInstance() {
@@ -63,17 +66,17 @@ public class NoteEditor {
         return tags;
     }
 
-    public void setSelectedTags(Set<String> selectedTags) {
-        this.selectedTags = selectedTags;
+    public void addSelectedTag(String selectedTag) {
+        selectedTags.add(selectedTag);
+        showNotes();
+    }
+
+    public void removeSelectedTag(String selectedTag) {
+        selectedTags.remove(selectedTag);
         showNotes();
     }
 
     private void setNotes(List<Note> notes) {
-        this.notes = notes;
-        showNotes();
-    }
-
-    private void showNotes() {
         this.tags = new HashSet<>();
 
         for (Note n : notes) {
@@ -86,6 +89,14 @@ public class NoteEditor {
             }
         });
 
+        this.notes = notes;
+
+        listener.onTagsChanged(tags);
+
+        showNotes();
+    }
+
+    private void showNotes() {
         List<Note> shownNotes = new ArrayList<>();
         for (Note n : notes) {
             for (String tag: n.getTags()) {
@@ -168,5 +179,9 @@ public class NoteEditor {
                 loadNotesInBackground();
             }
         }.execute();
+    }
+
+    public interface OnTagsChanged {
+        void onTagsChanged(Set<String> tags);
     }
 }
