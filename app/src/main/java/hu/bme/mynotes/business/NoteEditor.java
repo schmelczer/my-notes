@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -19,6 +20,7 @@ public class NoteEditor {
     private static NoteEditor instance = null;
 
     private List<Note> notes;
+    private Set<String> selectedTags;
     private Set<String> tags;
 
     private NoteDao dao;
@@ -29,7 +31,7 @@ public class NoteEditor {
     private NoteEditor(NoteDao dao, NoteAdapter adapter) {
         this.dao = dao;
         this.adapter = adapter;
-        this.tags = new HashSet<>();
+        this.selectedTags = new HashSet<>();
     }
 
     public static void initialize(NoteDao dao, NoteAdapter adapter) {
@@ -56,8 +58,24 @@ public class NoteEditor {
         return editedNote;
     }
 
+
+    public Set<String> getTags() {
+        return tags;
+    }
+
+    public void setSelectedTags(Set<String> selectedTags) {
+        this.selectedTags = selectedTags;
+        showNotes();
+    }
+
     private void setNotes(List<Note> notes) {
         this.notes = notes;
+        showNotes();
+    }
+
+    private void showNotes() {
+        this.tags = new HashSet<>();
+
         for (Note n : notes) {
             this.tags.addAll(n.getTags());
         }
@@ -67,8 +85,19 @@ public class NoteEditor {
                 return n1.getTitle().compareToIgnoreCase(n2.getTitle());
             }
         });
-        adapter.update(notes);
+
+        List<Note> shownNotes = new ArrayList<>();
+        for (Note n : notes) {
+            for (String tag: n.getTags()) {
+                if (selectedTags.contains(tag)) {
+                    shownNotes.add(n);
+                    break;
+                }
+            }
+        }
+        adapter.update(shownNotes);
     }
+
 
     public void saveEdited() {
         onNoteChanged(editedNote);
