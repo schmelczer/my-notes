@@ -1,12 +1,10 @@
 <resources>
-    <string name="app_name">MyNotes</string>
+    <string name="app_name">My notes</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_note">NoteActivity</string>
     <string name="tab_text_1">Edit</string>
     <string name="tab_text_2">View</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_edit_fragment"># Write *anything* here</string>
-    <string name="hello_view_fragment">Hello view fragment</string>
     <string name="sure_delete">Are you sure about deleting this?</string>
 </resources>
