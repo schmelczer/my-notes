@@ -5,7 +5,11 @@ import android.os.AsyncTask;
 
 import androidx.annotation.Nullable;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import hu.bme.mynotes.adapter.NoteAdapter;
 import hu.bme.mynotes.data.Note;
@@ -13,6 +17,9 @@ import hu.bme.mynotes.data.NoteDao;
 
 public class NoteEditor {
     private static NoteEditor instance = null;
+
+    private List<Note> notes;
+    private Set<String> tags;
 
     private NoteDao dao;
     private NoteAdapter adapter;
@@ -22,6 +29,7 @@ public class NoteEditor {
     private NoteEditor(NoteDao dao, NoteAdapter adapter) {
         this.dao = dao;
         this.adapter = adapter;
+        this.tags = new HashSet<>();
     }
 
     public static void initialize(NoteDao dao, NoteAdapter adapter) {
@@ -48,6 +56,20 @@ public class NoteEditor {
         return editedNote;
     }
 
+    private void setNotes(List<Note> notes) {
+        this.notes = notes;
+        for (Note n : notes) {
+            this.tags.addAll(n.getTags());
+        }
+        Collections.sort(notes, new Comparator<Note>() {
+            @Override
+            public int compare(Note n1, Note n2) {
+                return n1.getTitle().compareToIgnoreCase(n2.getTitle());
+            }
+        });
+        adapter.update(notes);
+    }
+
     public void saveEdited() {
         onNoteChanged(editedNote);
     }
@@ -63,7 +85,7 @@ public class NoteEditor {
 
             @Override
             protected void onPostExecute(List<Note> notes) {
-                adapter.update(notes);
+                setNotes(notes);
             }
         }.execute();
     }
@@ -97,7 +119,7 @@ public class NoteEditor {
 
             @Override
             protected void onPostExecute(Boolean isSuccessful) {
-                adapter.add(note);
+                loadNotesInBackground();
             }
         }.execute();
     }
@@ -114,7 +136,7 @@ public class NoteEditor {
 
             @Override
             protected void onPostExecute(Boolean isSuccessful) {
-                adapter.remove(note);
+                loadNotesInBackground();
             }
         }.execute();
     }

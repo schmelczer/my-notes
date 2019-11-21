@@ -1,11 +1,8 @@
 package hu.bme.mynotes.adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,10 +36,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
         Note note = notes.get(position);
-        holder.titleView.setText(note.content == null ? "null" : note.content);
+        holder.titleView.setText(note.getTitle());
         holder.note = note;
-        Log.d("alma", String.valueOf(note.id));
-        // TODO tags
+        List<String> tags = note.getTags();
+
+        if (tags.size() > 0) {
+            holder.tag1View.setText(tags.get(0));
+        }
     }
 
     @Override
