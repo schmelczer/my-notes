@@ -1,6 +1,8 @@
 package hu.bme.mynotes;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import hu.bme.mynotes.adapter.NoteAdapter;
@@ -11,6 +13,9 @@ import hu.bme.mynotes.helper.ColorHelpers;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -18,20 +23,32 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.os.ParcelFileDescriptor;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 
+import java.io.BufferedReader;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenNoteListener, NoteEditor.OnTagsChanged {
     public final static String NOTE_KEY = "note";
+    private static final int CHOOSE_FILE_REQUEST_CODE = 8777;
+    private static final int CHOOSE_DIRECTORY_REQUEST_CODE = 9999;
     public final static String NOTE_VALUE_OPEN = "open";
 
-    private ViewGroup tagsContainer;
+    private boolean firstTags = true;
 
+    private ViewGroup tagsContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +62,13 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenN
 
         FloatingActionButton fab = findViewById(R.id.fab);
 
-        NoteDatabase database = Room.databaseBuilder (
+        NoteDatabase database = Room.databaseBuilder(
                 getApplicationContext(),
                 NoteDatabase.class,
                 "notes"
         )
-        .fallbackToDestructiveMigration()
-        .build();
+                .fallbackToDestructiveMigration()
+                .build();
 
         tagsContainer = findViewById(R.id.tags);
 
@@ -72,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenN
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -104,24 +120,93 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenN
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_export) {
+        if (id == R.id.action_import) {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("application/json");
+            startActivityForResult(intent, CHOOSE_FILE_REQUEST_CODE);
             return true;
-        } else if (id == R.id.action_import) {
+        } else if (id == R.id.action_export) {
+            Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("application/json");
+            intent.putExtra(Intent.EXTRA_TITLE, "notes.json");
+            startActivityForResult(intent, CHOOSE_DIRECTORY_REQUEST_CODE);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    private void exportNotes(Uri uri) {
+        Gson gson = new GsonBuilder().create();
+        String exported = gson.toJson(NoteEditor.getInstance().getNotes());
+
+        try (ParcelFileDescriptor pfd = getContentResolver().openFileDescriptor(uri, "w");
+             FileOutputStream fileOutputStream = new FileOutputStream(pfd.getFileDescriptor())
+        ) {
+            fileOutputStream.write(exported.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void importNotes(Uri uri) {
+        StringBuilder stringBuilder = new StringBuilder();
+        try (
+                InputStream inputStream = getContentResolver().openInputStream(uri);
+                BufferedReader reader = new BufferedReader(
+                     new InputStreamReader(Objects.requireNonNull(inputStream))
+                )
+        ) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String json = stringBuilder.toString();
+        Gson gson = new GsonBuilder().create();
+        List<Note> notes = gson.fromJson(json, new TypeToken<List<Note>>(){}.getType());
+        for(Note note : notes) {
+            NoteEditor.getInstance().onNoteCreated(note);
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case CHOOSE_FILE_REQUEST_CODE:
+                importNotes(data.getData());
+                break;
+            case CHOOSE_DIRECTORY_REQUEST_CODE:
+                exportNotes(data.getData());
+                break;
+        }
+    }
+
     @Override
     public void onTagsChanged(Set<String> tags) {
         tagsContainer.removeAllViews();
+
+        if (firstTags) {
+            firstTags = false;
+            for (String t : tags) {
+                NoteEditor.getInstance().addSelectedTag(t);
+            }
+        }
+
+        Set<String> selectedTags = NoteEditor.getInstance().getSelectedTags();
+
         for (String t : tags) {
             final String tag = t;
             View parent = getLayoutInflater().inflate(R.layout.checkable_tag, tagsContainer, false);
 
             CheckBox show = parent.findViewById(R.id.show);
             show.setText(ColorHelpers.formatTag(this, tag));
+            show.setChecked(selectedTags.contains(tag));
 
             show.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
@@ -132,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenN
             });
 
             tagsContainer.addView(parent, new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
             ));
         }
     }

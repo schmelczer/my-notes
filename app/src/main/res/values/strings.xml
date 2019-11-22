@@ -8,4 +8,5 @@
     <string name="sure_delete">Are you sure about deleting this?</string>
     <string name="action_import">Import notes</string>
     <string name="action_export">Export notes</string>
+    <string name="choose_directory">Choose a location</string>
 </resources>

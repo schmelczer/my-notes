@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "hu.bme.mynotes"
-        minSdkVersion 16
+        minSdkVersion 21
         vectorDrawables.useSupportLibrary = true
         targetSdkVersion 29
         versionCode 1
@@ -26,10 +26,10 @@ android {
 
 dependencies {
     def room_version = "1.1.1"
+    annotationProcessor "android.arch.persistence.room:compiler:$room_version"
     implementation "android.arch.persistence.room:runtime:$room_version"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    annotationProcessor "android.arch.persistence.room:compiler:$room_version"
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation "io.noties.markwon:core:4.2.0"
     implementation "io.noties.markwon:editor:4.2.0"

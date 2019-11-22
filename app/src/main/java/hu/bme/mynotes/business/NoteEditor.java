@@ -62,8 +62,12 @@ public class NoteEditor {
     }
 
 
-    public Set<String> getTags() {
-        return tags;
+    public Set<String> getSelectedTags() {
+        return selectedTags;
+    }
+
+    public List<Note> getNotes() {
+        return notes;
     }
 
     public void addSelectedTag(String selectedTag) {
@@ -148,6 +152,7 @@ public class NoteEditor {
 
             @Override
             protected Boolean doInBackground(Void... voids) {
+                note.id = null;
                 note.id = dao.insert(note);
                 return true;
             }
