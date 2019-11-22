@@ -19,7 +19,7 @@
             android:id="@+id/noteTitle"
             android:textSize="@dimen/large_font"
             android:paddingBottom="0dp"
-            android:layout_marginBottom="-15dp"
+            android:layout_marginBottom="@dimen/small_margin"
             android:layout_width="match_parent"
             android:includeFontPadding="false"
             android:layout_height="wrap_content"

@@ -62,7 +62,7 @@ public class Note {
         }
 
         Matcher matcher = Pattern.compile("# .+\n").matcher(content);
-        String result = matcher.find() ? matcher.group().substring(2) : EMPTY_TITLE;
+        String result = matcher.find() ? matcher.group().substring(1).trim() : EMPTY_TITLE;
         title = result;
         return result;
     }
