@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<CheckBox xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/show"
+    android:layout_width="wrap_content"
+    android:textColor="@color/colorText"
+    android:layout_height="wrap_content"
+    app:buttonTint="@color/colorText"
+    tools:text="#hashtag"
+    android:paddingRight="@dimen/medium_margin"/>

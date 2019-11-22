@@ -1,18 +1,24 @@
 package hu.bme.mynotes.adapter;
 
+import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.w3c.dom.Text;
 
 import hu.bme.mynotes.R;
 import hu.bme.mynotes.data.Note;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
     private final List<Note> notes;
@@ -38,11 +44,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         Note note = notes.get(position);
         holder.titleView.setText(note.getTitle());
         holder.note = note;
-        List<String> tags = note.getTags();
-
-        if (tags.size() > 0) {
-            holder.tag1View.setText(tags.get(0));
-        }
+        holder.drawTags();
     }
 
     @Override
@@ -73,19 +75,15 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     }
 
     class NoteViewHolder extends RecyclerView.ViewHolder {
-        TextView titleView;
-        TextView tag1View;
-        TextView tag2View;
-        TextView tag3View;
+        private ViewGroup tagContainer;
 
+        TextView titleView;
         Note note;
 
         NoteViewHolder(View view) {
             super(view);
             titleView = view.findViewById(R.id.noteTitle);
-            tag1View = view.findViewById(R.id.noteTag1);
-            tag2View = view.findViewById(R.id.noteTag2);
-            tag3View = view.findViewById(R.id.noteTag3);
+            tagContainer = view.findViewById(R.id.tags);
 
             view.findViewById(R.id.noteBody).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -107,6 +105,35 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                     listener.editNote(note);
                 }
             });
+        }
+
+        public void drawTags() {
+            tagContainer.removeAllViews();
+            Context ctx = tagContainer.getContext();
+
+            int i = 0;
+            for (String tag : note.getTags()) {
+                if(++i > 3) {
+                    break;
+                }
+
+                View parent = (
+                    (LayoutInflater)(ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                ).inflate(
+                    R.layout.tag, tagContainer, false
+                );
+
+                TextView tagView = parent.findViewById(R.id.tag);
+                tagView.setText(Html.fromHtml(String.format(
+                    "<font color=\"#%s\">#</font><i>%s</i>",
+                    Integer.toHexString(
+                        ContextCompat.getColor(ctx, R.color.colorPrimaryBright) & 0x00ffffff
+                    ),
+                    tag.substring(1)
+                )));
+
+                tagContainer.addView(parent);
+            }
         }
     }
 }

@@ -5,7 +5,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp"
+    android:paddingBottom="@dimen/extra_large_margin"
     android:weightSum="4">
 
     <LinearLayout
@@ -17,38 +17,24 @@
 
         <TextView
             android:id="@+id/noteTitle"
+            android:textSize="@dimen/large_font"
+            android:paddingBottom="0dp"
+            android:layout_marginBottom="-15dp"
+            android:layout_width="match_parent"
+            android:includeFontPadding="false"
+            android:layout_height="wrap_content"
+            tools:text="A rather long titlelorem ipsum dolor multiline for my note" />
+
+        <com.google.android.flexbox.FlexboxLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="A rather long title for my note" />
-
-        <LinearLayout
+            app:flexDirection="row"
+            app:justifyContent="flex_start"
+            app:alignItems="center"
             android:id="@+id/tags"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="16dp"
-            android:weightSum="5">
+            app:flexWrap="nowrap">
 
-            <TextView
-                android:id="@+id/noteTag1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                tools:text="#alma" />
-            <TextView
-                android:id="@+id/noteTag2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                tools:text="#alma" />
-            <TextView
-                android:id="@+id/noteTag3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                tools:text="#körte" />
-
-        </LinearLayout>
+        </com.google.android.flexbox.FlexboxLayout>
 
     </LinearLayout>
 
@@ -64,8 +50,6 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:padding="12dp"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/ic_edit" />
@@ -77,7 +61,6 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:padding="12dp"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/ic_delete" />

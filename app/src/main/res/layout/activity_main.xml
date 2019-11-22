@@ -34,11 +34,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/large_margin"
+                android:layout_marginRight="@dimen/large_margin"
                 android:orientation="vertical"
                 >
                 <com.google.android.flexbox.FlexboxLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/large_margin"
+                    android:layout_marginBottom="@dimen/large_margin"
                     app:flexDirection="row"
                     app:justifyContent="center"
                     app:alignItems="center"
@@ -54,7 +58,6 @@
                     android:layout_height="wrap_content"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     />
-
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
@@ -64,7 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="66dp"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
+        android:layout_margin="@dimen/large_margin"
         app:srcCompat="@drawable/ic_plus" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

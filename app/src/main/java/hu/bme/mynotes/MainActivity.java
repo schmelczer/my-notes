@@ -13,22 +13,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
-import android.widget.RadioGroup;
-import android.widget.ScrollView;
 
 import java.util.Set;
 
@@ -129,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenN
         tagsContainer.removeAllViews();
         for (String t : tags) {
             final String tag = t;
-            View parent = getLayoutInflater().inflate(R.layout.tag, null);
+            View parent = getLayoutInflater().inflate(R.layout.checkable_tag, null);
 
             CheckBox show = parent.findViewById(R.id.show);
             show.setText(t);

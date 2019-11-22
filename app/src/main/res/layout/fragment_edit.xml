@@ -12,6 +12,7 @@
         android:gravity="top|start"
         android:id="@+id/textInput"
         android:scrollbars="vertical"
+        android:textColor="@color/colorText"
         android:text="@string/hello_edit_fragment" />
 
 </FrameLayout>
