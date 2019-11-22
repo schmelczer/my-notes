@@ -1,13 +1,13 @@
 package hu.bme.mynotes;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import hu.bme.mynotes.adapter.NoteAdapter;
 import hu.bme.mynotes.data.Note;
 import hu.bme.mynotes.data.NoteDatabase;
 import hu.bme.mynotes.business.NoteEditor;
+import hu.bme.mynotes.helper.ColorHelpers;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -23,12 +23,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenNoteListener, NoteEditor.OnTagsChanged {
     public final static String NOTE_KEY = "note";
+    public final static String NOTE_VALUE_OPEN = "open";
 
     private ViewGroup tagsContainer;
 
@@ -36,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenN
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ColorHelpers.init(this);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -59,12 +62,9 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenN
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NoteEditor.getInstance().startEditing(null);
-                startActivity(new Intent(MainActivity.this, NoteActivity.class));
-            }
+        fab.setOnClickListener(view -> {
+            NoteEditor.getInstance().startEditing(null);
+            startActivity(new Intent(MainActivity.this, NoteActivity.class));
         });
 
         NoteEditor.getInstance().loadNotesInBackground();
@@ -87,13 +87,8 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenN
     public void deleteNote(final Note note) {
         NoteEditor.getInstance().onNoteDeleted(note);
         Snackbar.make(findViewById(R.id.main), getResources().getString(R.string.sure_delete), Snackbar.LENGTH_LONG)
-                .setAction("Undo", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        NoteEditor.getInstance().onNoteCreated(note);
-                    }
-                })
-                .setActionTextColor(Color.YELLOW)
+                .setAction("Undo", v -> NoteEditor.getInstance().onNoteCreated(note))
+                .setActionTextColor(getResources().getColor(R.color.colorPrimaryBright))
                 .show();
     }
 
@@ -101,18 +96,17 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenN
     public void openNote(Note note) {
         NoteEditor.getInstance().startEditing(note);
         Intent intent = new Intent(MainActivity.this, NoteActivity.class);
-        intent.putExtra(NOTE_KEY, "open");
+        intent.putExtra(NOTE_KEY, NOTE_VALUE_OPEN);
         startActivity(intent);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_export) {
+            return true;
+        } else if (id == R.id.action_import) {
             return true;
         }
 
@@ -124,18 +118,16 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenN
         tagsContainer.removeAllViews();
         for (String t : tags) {
             final String tag = t;
-            View parent = getLayoutInflater().inflate(R.layout.checkable_tag, null);
+            View parent = getLayoutInflater().inflate(R.layout.checkable_tag, tagsContainer, false);
 
             CheckBox show = parent.findViewById(R.id.show);
-            show.setText(t);
-            show.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        NoteEditor.getInstance().addSelectedTag(tag);
-                    } else {
-                        NoteEditor.getInstance().removeSelectedTag(tag);
-                    }
+            show.setText(ColorHelpers.formatTag(this, tag));
+
+            show.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    NoteEditor.getInstance().addSelectedTag(tag);
+                } else {
+                    NoteEditor.getInstance().removeSelectedTag(tag);
                 }
             });
 

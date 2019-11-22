@@ -1,24 +1,20 @@
 package hu.bme.mynotes.adapter;
 
 import android.content.Context;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-
-import org.w3c.dom.Text;
 
 import hu.bme.mynotes.R;
 import hu.bme.mynotes.data.Note;
+import hu.bme.mynotes.helper.ColorHelpers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
     private final List<Note> notes;
@@ -85,26 +81,9 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             titleView = view.findViewById(R.id.noteTitle);
             tagContainer = view.findViewById(R.id.tags);
 
-            view.findViewById(R.id.noteBody).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.openNote(note);
-                }
-            });
-
-            view.findViewById(R.id.deleteButton).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.deleteNote(note);
-                }
-            });
-
-            view.findViewById(R.id.editButton).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.editNote(note);
-                }
-            });
+            view.findViewById(R.id.noteBody).setOnClickListener(v -> listener.openNote(note));
+            view.findViewById(R.id.deleteButton).setOnClickListener(v -> listener.deleteNote(note));
+            view.findViewById(R.id.editButton).setOnClickListener(v -> listener.editNote(note));
         }
 
         public void drawTags() {
@@ -124,14 +103,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                 );
 
                 TextView tagView = parent.findViewById(R.id.tag);
-                tagView.setText(Html.fromHtml(String.format(
-                    "<font color=\"#%s\">#</font><i>%s</i>",
-                    Integer.toHexString(
-                        ContextCompat.getColor(ctx, R.color.colorPrimaryBright) & 0x00ffffff
-                    ),
-                    tag.substring(1)
-                )));
-
+                tagView.setText(ColorHelpers.formatTag(ctx, tag));
                 tagContainer.addView(parent);
             }
         }

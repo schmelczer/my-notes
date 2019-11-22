@@ -82,12 +82,7 @@ public class NoteEditor {
         for (Note n : notes) {
             this.tags.addAll(n.getTags());
         }
-        Collections.sort(notes, new Comparator<Note>() {
-            @Override
-            public int compare(Note n1, Note n2) {
-                return n1.getTitle().compareToIgnoreCase(n2.getTitle());
-            }
-        });
+        Collections.sort(notes, (n1, n2) -> n1.getTitle().compareToIgnoreCase(n2.getTitle()));
 
         this.notes = notes;
 

@@ -1,4 +1,4 @@
-package hu.bme.mynotes.view;
+package hu.bme.mynotes.editor;
 
 import android.content.Context;
 

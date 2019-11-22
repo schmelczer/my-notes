@@ -1,7 +1,6 @@
 package hu.bme.mynotes;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -9,10 +8,10 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import hu.bme.mynotes.business.NoteEditor;
-import hu.bme.mynotes.view.SectionsPagerAdapter;
+import hu.bme.mynotes.editor.SectionsPagerAdapter;
 
 import static hu.bme.mynotes.MainActivity.NOTE_KEY;
-import static hu.bme.mynotes.view.SectionsPagerAdapter.VIEW_PAGE;
+import static hu.bme.mynotes.editor.SectionsPagerAdapter.VIEW_PAGE;
 
 public class NoteActivity extends AppCompatActivity {
     private SectionsPagerAdapter sectionsPagerAdapter;

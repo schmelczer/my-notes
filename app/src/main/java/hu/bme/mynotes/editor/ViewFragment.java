@@ -1,4 +1,4 @@
-package hu.bme.mynotes.view;
+package hu.bme.mynotes.editor;
 
 
 import android.os.Bundle;
@@ -13,7 +13,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import hu.bme.mynotes.R;
+import hu.bme.mynotes.helper.ColorHelpers;
+import io.noties.markwon.AbstractMarkwonPlugin;
 import io.noties.markwon.Markwon;
+import io.noties.markwon.core.MarkwonTheme;
 
 public class ViewFragment extends Fragment {
     private String text;
@@ -28,7 +31,19 @@ public class ViewFragment extends Fragment {
     public View onCreateView (
         LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState
     ) {
-        markwon = Markwon.create(container.getContext());
+        markwon =  Markwon.builder(container.getContext())
+                .usePlugin(new AbstractMarkwonPlugin() {
+                    @Override
+                    public void configureTheme(@NonNull MarkwonTheme.Builder builder) {
+                        builder.linkColor(ColorHelpers.getBrightColor())
+                                .blockQuoteColor(ColorHelpers.getBrightColor())
+                                .listItemColor(ColorHelpers.getBrightColor())
+                                .headingBreakHeight(0);
+
+                    }
+                })
+                .build();
+
         return inflater.inflate(R.layout.fragment_view, container, false);
     }
 

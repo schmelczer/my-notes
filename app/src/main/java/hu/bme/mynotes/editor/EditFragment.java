@@ -1,8 +1,9 @@
-package hu.bme.mynotes.view;
+package hu.bme.mynotes.editor;
 
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -24,10 +25,6 @@ public class EditFragment extends Fragment {
     private EditText input;
     private String initialText = null;
 
-    public EditFragment() {
-    }
-
-
     @Override
     public View onCreateView (
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState
@@ -36,7 +33,7 @@ public class EditFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         input = getView().findViewById(R.id.textInput);
 
         if (initialText != null) {
@@ -44,8 +41,9 @@ public class EditFragment extends Fragment {
             initialText = null;
         }
 
-        final Markwon markwon = Markwon.create(view.getContext());
-        final MarkwonEditor editor = MarkwonEditor.create(markwon);
+        final MarkwonEditor editor = MarkwonEditor.builder(Markwon.create(view.getContext()))
+                .punctuationSpan(CustomPunctuationSpan.class, CustomPunctuationSpan::new)
+                .build();
 
         input.addTextChangedListener(MarkwonEditorTextWatcher.withPreRender(
                 editor,
