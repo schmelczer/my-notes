@@ -9,14 +9,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import hu.bme.mynotes.MainActivity;
 import hu.bme.mynotes.R;
 import hu.bme.mynotes.data.Note;
 import hu.bme.mynotes.helper.ColorHelpers;
 import io.noties.markwon.Markwon;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
     private final List<Note> notes;
@@ -70,15 +70,16 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
     public interface OpenNoteListener {
         void editNote(Note note);
+
         void deleteNote(Note note);
+
         void openNote(Note note);
     }
 
     class NoteViewHolder extends RecyclerView.ViewHolder {
-        private ViewGroup tagContainer;
-
         TextView titleView;
         Note note;
+        private ViewGroup tagContainer;
 
         NoteViewHolder(View view) {
             super(view);
@@ -96,14 +97,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
             int i = 0;
             for (String tag : note.getTags()) {
-                if(++i > 3) {
+                if (++i > 3) {
                     break;
                 }
 
                 View parent = (
-                    (LayoutInflater)(ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                        (LayoutInflater) (ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                 ).inflate(
-                    R.layout.tag, tagContainer, false
+                        R.layout.tag, tagContainer, false
                 );
 
                 TextView tagView = parent.findViewById(R.id.tag);

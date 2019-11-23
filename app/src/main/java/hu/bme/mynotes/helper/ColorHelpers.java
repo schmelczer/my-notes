@@ -17,17 +17,17 @@ public abstract class ColorHelpers {
 
     public static Spanned formatTag(Context ctx, String tagName) {
         return Html.fromHtml(String.format(
-            "<font color=\"#%s\">#</font><i>%s</i>",
-            Integer.toHexString(
-                brightColor & 0x00ffffff
-            ),
+                "<font color=\"#%s\">#</font><i>%s</i>",
+                Integer.toHexString(
+                        brightColor & 0x00ffffff
+                ),
 
-            tagName.substring(1)
+                tagName.substring(1)
         ));
     }
 
     public static int getBrightColor() {
-        if(brightColor == null) {
+        if (brightColor == null) {
             throw new RuntimeException("Uninitialized");
         }
         return brightColor;

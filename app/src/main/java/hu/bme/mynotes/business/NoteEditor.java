@@ -7,7 +7,6 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,7 +37,7 @@ public class NoteEditor {
     }
 
     public static void initialize(NoteDao dao, NoteAdapter adapter, OnTagsChanged listener) {
-       instance = new NoteEditor(dao, adapter, listener);
+        instance = new NoteEditor(dao, adapter, listener);
     }
 
     public static NoteEditor getInstance() {
@@ -70,16 +69,6 @@ public class NoteEditor {
         return notes;
     }
 
-    public void addSelectedTag(String selectedTag) {
-        selectedTags.add(selectedTag);
-        showNotes();
-    }
-
-    public void removeSelectedTag(String selectedTag) {
-        selectedTags.remove(selectedTag);
-        showNotes();
-    }
-
     private void setNotes(List<Note> notes) {
         this.tags = new HashSet<>();
 
@@ -95,10 +84,20 @@ public class NoteEditor {
         showNotes();
     }
 
+    public void addSelectedTag(String selectedTag) {
+        selectedTags.add(selectedTag);
+        showNotes();
+    }
+
+    public void removeSelectedTag(String selectedTag) {
+        selectedTags.remove(selectedTag);
+        showNotes();
+    }
+
     private void showNotes() {
         List<Note> shownNotes = new ArrayList<>();
         for (Note n : notes) {
-            for (String tag: n.getTags()) {
+            for (String tag : n.getTags()) {
                 if (selectedTags.contains(tag)) {
                     shownNotes.add(n);
                     break;

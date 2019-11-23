@@ -3,18 +3,12 @@ package hu.bme.mynotes;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import hu.bme.mynotes.adapter.NoteAdapter;
-import hu.bme.mynotes.data.Note;
-import hu.bme.mynotes.data.NoteDatabase;
-import hu.bme.mynotes.business.NoteEditor;
-import hu.bme.mynotes.helper.ColorHelpers;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+import android.os.ParcelFileDescriptor;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -22,12 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
-import android.os.ParcelFileDescriptor;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.CheckBox;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
@@ -39,12 +32,17 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import hu.bme.mynotes.adapter.NoteAdapter;
+import hu.bme.mynotes.business.NoteEditor;
+import hu.bme.mynotes.data.Note;
+import hu.bme.mynotes.data.NoteDatabase;
+import hu.bme.mynotes.helper.ColorHelpers;
+
 public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenNoteListener, NoteEditor.OnTagsChanged {
     public final static String NOTE_KEY = "note";
+    public final static String NOTE_VALUE_OPEN = "open";
     private static final int CHOOSE_FILE_REQUEST_CODE = 8777;
     private static final int CHOOSE_DIRECTORY_REQUEST_CODE = 9999;
-    public final static String NOTE_VALUE_OPEN = "open";
-
     private Set<String> knownTags;
 
     private ViewGroup tagsContainer;
@@ -159,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenN
         try (
                 InputStream inputStream = getContentResolver().openInputStream(uri);
                 BufferedReader reader = new BufferedReader(
-                     new InputStreamReader(Objects.requireNonNull(inputStream))
+                        new InputStreamReader(Objects.requireNonNull(inputStream))
                 )
         ) {
             String line;
@@ -171,8 +169,9 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenN
         }
         String json = stringBuilder.toString();
         Gson gson = new GsonBuilder().create();
-        List<Note> notes = gson.fromJson(json, new TypeToken<List<Note>>(){}.getType());
-        for(Note note : notes) {
+        List<Note> notes = gson.fromJson(json, new TypeToken<List<Note>>() {
+        }.getType());
+        for (Note note : notes) {
             NoteEditor.getInstance().onNoteCreated(note);
         }
     }

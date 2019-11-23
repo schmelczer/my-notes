@@ -2,10 +2,10 @@ package hu.bme.mynotes;
 
 import android.os.Bundle;
 
-import com.google.android.material.tabs.TabLayout;
-
-import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 
 import hu.bme.mynotes.business.NoteEditor;
 import hu.bme.mynotes.editor.SectionsPagerAdapter;
@@ -22,7 +22,7 @@ public class NoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_note);
 
         sectionsPagerAdapter = new SectionsPagerAdapter(
-            this, getSupportFragmentManager()
+                this, getSupportFragmentManager()
         );
 
         ViewPager viewPager = findViewById(R.id.view_pager);
@@ -39,7 +39,7 @@ public class NoteActivity extends AppCompatActivity {
 
         String startingScreen = getIntent().getStringExtra(NOTE_KEY);
         sectionsPagerAdapter.setTextForEditor(NoteEditor.getInstance().getEditedNote().content);
-        if(startingScreen != null) {
+        if (startingScreen != null) {
             viewPager.setCurrentItem(VIEW_PAGE);
         }
     }

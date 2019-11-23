@@ -16,20 +16,15 @@ import java.util.regex.Pattern;
 public class Note {
     @Ignore
     private static String EMPTY_TITLE = "No title given";
-
-    @Ignore
-    private String title;
-
-    @Ignore
-    private List<String> tags;
-
     @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true)
     public Long id;
-
     @ColumnInfo(name = "content")
     public String content;
-
+    @Ignore
+    private String title;
+    @Ignore
+    private List<String> tags;
 
     public List<String> getTags() {
         if (tags != null) {
