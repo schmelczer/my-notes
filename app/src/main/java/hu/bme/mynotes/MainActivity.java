@@ -1,6 +1,5 @@
 package hu.bme.mynotes;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.os.ParcelFileDescriptor;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,6 +34,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -46,13 +45,15 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenN
     private static final int CHOOSE_DIRECTORY_REQUEST_CODE = 9999;
     public final static String NOTE_VALUE_OPEN = "open";
 
-    private boolean firstTags = true;
+    private Set<String> knownTags;
 
     private ViewGroup tagsContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        knownTags = new HashSet<>();
 
         ColorHelpers.init(this);
 
@@ -102,10 +103,12 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenN
     @Override
     public void deleteNote(final Note note) {
         NoteEditor.getInstance().onNoteDeleted(note);
-        Snackbar.make(findViewById(R.id.main), getResources().getString(R.string.sure_delete), Snackbar.LENGTH_LONG)
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.main), getResources().getString(R.string.sure_delete), Snackbar.LENGTH_LONG)
                 .setAction("Undo", v -> NoteEditor.getInstance().onNoteCreated(note))
-                .setActionTextColor(getResources().getColor(R.color.colorPrimaryBright))
-                .show();
+                .setActionTextColor(getResources().getColor(R.color.colorPrimaryBright));
+
+        snackbar.getView().setBackgroundColor(getResources().getColor(R.color.colorBackground));
+        snackbar.show();
     }
 
     @Override
@@ -191,9 +194,9 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenN
     public void onTagsChanged(Set<String> tags) {
         tagsContainer.removeAllViews();
 
-        if (firstTags) {
-            firstTags = false;
-            for (String t : tags) {
+        for (String t : tags) {
+            if (!knownTags.contains(t)) {
+                knownTags.add(t);
                 NoteEditor.getInstance().addSelectedTag(t);
             }
         }

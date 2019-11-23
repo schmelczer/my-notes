@@ -36,8 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/large_margin"
                 android:layout_marginRight="@dimen/large_margin"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
                 <com.google.android.flexbox.FlexboxLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -48,16 +47,18 @@
                     app:alignItems="center"
                     android:id="@+id/tags"
                     app:flexWrap="wrap">
-
                 </com.google.android.flexbox.FlexboxLayout>
 
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/MainRecyclerView"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                    />
+                    android:layout_height="wrap_content">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/MainRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                        />
+                </RelativeLayout>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

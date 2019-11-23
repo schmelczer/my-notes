@@ -17,6 +17,7 @@ import hu.bme.mynotes.helper.ColorHelpers;
 import io.noties.markwon.AbstractMarkwonPlugin;
 import io.noties.markwon.Markwon;
 import io.noties.markwon.core.MarkwonTheme;
+import io.noties.markwon.image.glide.GlideImagesPlugin;
 
 public class ViewFragment extends Fragment {
     private String text;
@@ -42,6 +43,7 @@ public class ViewFragment extends Fragment {
 
                     }
                 })
+                .usePlugin(GlideImagesPlugin.create(container.getContext()))
                 .build();
 
         return inflater.inflate(R.layout.fragment_view, container, false);

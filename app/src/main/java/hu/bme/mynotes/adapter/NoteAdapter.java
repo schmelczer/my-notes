@@ -9,20 +9,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import hu.bme.mynotes.MainActivity;
 import hu.bme.mynotes.R;
 import hu.bme.mynotes.data.Note;
 import hu.bme.mynotes.helper.ColorHelpers;
+import io.noties.markwon.Markwon;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
     private final List<Note> notes;
+    private Markwon markwon;
 
     private OpenNoteListener listener;
 
-    public NoteAdapter(OpenNoteListener listener) {
+    public NoteAdapter(MainActivity listener) {
         this.listener = listener;
+        markwon = Markwon.create(listener);
         notes = new ArrayList<>();
     }
 
@@ -38,7 +42,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
         Note note = notes.get(position);
-        holder.titleView.setText(note.getTitle());
+        holder.titleView.setText(markwon.toMarkdown(note.getTitle()));
         holder.note = note;
         holder.drawTags();
     }
