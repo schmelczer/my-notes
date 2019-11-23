@@ -14,7 +14,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -68,13 +67,7 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenN
     }
 
     private void initializeNoteEditor(NoteAdapter adapter) {
-        NoteDatabase database = Room.databaseBuilder(
-                getApplicationContext(), NoteDatabase.class, "notes"
-        )
-                .fallbackToDestructiveMigration()
-                .build();
-
-        NoteEditor.initialize(database.getNoteDao(), adapter, this);
+        NoteEditor.initialize(NoteDatabase.getInstance(this).getNoteDao(), adapter, this);
     }
 
     private void initializeRecyclerView(NoteAdapter adapter) {

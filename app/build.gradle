@@ -38,6 +38,10 @@ dependencies {
     implementation "io.noties.markwon:image:$markwon_version"
     implementation "io.noties.markwon:core:$markwon_version"
     implementation "io.noties.markwon:editor:$markwon_version"
+    implementation"io.noties.markwon:ext-latex:$markwon_version"
+    implementation"io.noties.markwon:ext-strikethrough:$markwon_version"
+    implementation"io.noties.markwon:ext-tables:$markwon_version"
+    implementation"io.noties.markwon:ext-tasklist:$markwon_version"
     implementation 'com.google.android:flexbox:0.3.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'

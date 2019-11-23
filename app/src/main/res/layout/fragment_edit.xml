@@ -12,8 +12,9 @@
         android:background="@null"
         android:gravity="top|start"
         android:inputType="textMultiLine"
+        android:paddingTop="@dimen/large_margin"
+        android:paddingBottom="@dimen/large_margin"
         android:scrollbars="vertical"
         android:text="@string/hello_edit_fragment"
         android:textColor="@color/colorText" />
-
 </FrameLayout>

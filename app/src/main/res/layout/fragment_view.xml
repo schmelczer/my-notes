@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".editor.ViewFragment">
 
-
     <TextView
         android:id="@+id/textContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/large_margin"
+        android:paddingBottom="@dimen/large_margin" />
 </FrameLayout>

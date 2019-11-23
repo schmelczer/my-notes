@@ -16,6 +16,9 @@ import hu.bme.mynotes.helper.ColorHelper;
 import io.noties.markwon.AbstractMarkwonPlugin;
 import io.noties.markwon.Markwon;
 import io.noties.markwon.core.MarkwonTheme;
+import io.noties.markwon.ext.strikethrough.StrikethroughPlugin;
+import io.noties.markwon.ext.tables.TablePlugin;
+import io.noties.markwon.ext.tasklist.TaskListPlugin;
 import io.noties.markwon.image.ImagesPlugin;
 
 
@@ -44,6 +47,9 @@ public class ViewFragment extends Fragment {
                     }
                 })
                 .usePlugin(ImagesPlugin.create())
+                .usePlugin(TaskListPlugin.create(container.getContext()))
+                .usePlugin(StrikethroughPlugin.create())
+                .usePlugin(TablePlugin.create(container.getContext()))
                 .build();
 
         return inflater.inflate(R.layout.fragment_view, container, false);

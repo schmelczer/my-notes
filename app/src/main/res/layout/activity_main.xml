@@ -47,7 +47,7 @@
                     app:alignItems="center"
                     app:flexDirection="row"
                     app:flexWrap="wrap"
-                    app:justifyContent="center"></com.google.android.flexbox.FlexboxLayout>
+                    app:justifyContent="center" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"

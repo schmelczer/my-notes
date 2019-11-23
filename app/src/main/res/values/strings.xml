@@ -4,7 +4,7 @@
     <string name="tab_text_1">Edit</string>
     <string name="tab_text_2">View</string>
 
-    <string name="hello_edit_fragment"># Write anything here\n\n*My* first _note!_\n\n#newnote</string>
+    <string name="hello_edit_fragment"># Empty note\n\n#empty</string>
     <string name="sure_delete">Are you sure about deleting this?</string>
     <string name="action_import">Import notes</string>
     <string name="action_export">Export notes</string>
