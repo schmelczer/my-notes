@@ -16,49 +16,56 @@ import java.util.regex.Pattern;
 public class Note {
     @Ignore
     private static String EMPTY_TITLE = "No title given";
+
     @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true)
     public Long id;
+
     @ColumnInfo(name = "content")
     public String content;
+
     @Ignore
-    private String title;
+    private String previousContentTitle;  // used for caching
     @Ignore
-    private List<String> tags;
+    private String title;  // used for caching
+
+    @Ignore
+    private String previousContentTags;  // used for caching
+    @Ignore
+    private List<String> tags;  // used for caching
 
     public List<String> getTags() {
-        if (tags != null) {
-            return tags;
+        if (content == null || !content.equals(previousContentTitle)) {
+            previousContentTitle = content;
+
+            List<String> matches = new ArrayList<>();
+
+            if (content != null) {
+                Matcher matcher = Pattern.compile("#\\w+").matcher(content);
+
+                while (matcher.find()) {
+                    matches.add(matcher.group());
+                }
+            }
+
+            tags = matches;
         }
 
-        if (content == null) {
-            return new ArrayList<>();
-        }
-
-        List<String> matches = new ArrayList<>();
-        Matcher matcher = Pattern.compile("#\\w+").matcher(content);
-
-        while (matcher.find()) {
-            matches.add(matcher.group());
-        }
-
-        tags = matches;
-
-        return matches;
+        return tags;
     }
 
     public String getTitle() {
-        if (title != null) {
-            return title;
+        if (content == null || !content.equals(previousContentTags)) {
+            previousContentTags = content;
+
+            if (content == null) {
+                title = EMPTY_TITLE;
+            } else {
+                Matcher matcher = Pattern.compile("# .+\n").matcher(content);
+                title = matcher.find() ? matcher.group().substring(1).trim() : EMPTY_TITLE;
+            }
         }
 
-        if (content == null) {
-            return EMPTY_TITLE;
-        }
-
-        Matcher matcher = Pattern.compile("# .+\n").matcher(content);
-        String result = matcher.find() ? matcher.group().substring(1).trim() : EMPTY_TITLE;
-        title = result;
-        return result;
+        return title;
     }
 }

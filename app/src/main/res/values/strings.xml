@@ -9,4 +9,6 @@
     <string name="action_import">Import notes</string>
     <string name="action_export">Export notes</string>
     <string name="choose_directory">Choose a location</string>
+    <string name="undo">Undo</string>
+    <string name="something_went_wrong">Something went wrong :(</string>
 </resources>

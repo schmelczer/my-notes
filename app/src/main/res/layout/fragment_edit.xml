@@ -6,14 +6,14 @@
     tools:context=".editor.EditFragment">
 
     <EditText
-        android:inputType="textMultiLine"
+        android:id="@+id/textInput"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="top|start"
-        android:id="@+id/textInput"
-        android:scrollbars="vertical"
         android:background="@null"
-        android:textColor="@color/colorText"
-        android:text="@string/hello_edit_fragment" />
+        android:gravity="top|start"
+        android:inputType="textMultiLine"
+        android:scrollbars="vertical"
+        android:text="@string/hello_edit_fragment"
+        android:textColor="@color/colorText" />
 
 </FrameLayout>

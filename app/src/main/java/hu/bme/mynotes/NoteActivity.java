@@ -13,6 +13,7 @@ import hu.bme.mynotes.editor.SectionsPagerAdapter;
 import static hu.bme.mynotes.MainActivity.NOTE_KEY;
 import static hu.bme.mynotes.editor.SectionsPagerAdapter.VIEW_PAGE;
 
+
 public class NoteActivity extends AppCompatActivity {
     private SectionsPagerAdapter sectionsPagerAdapter;
 
@@ -21,15 +22,13 @@ public class NoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
 
-        sectionsPagerAdapter = new SectionsPagerAdapter(
-                this, getSupportFragmentManager()
-        );
+        sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
 
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                sectionsPagerAdapter.setText(sectionsPagerAdapter.getText());
+                sectionsPagerAdapter.setTextForView(sectionsPagerAdapter.getTextOfEditor());
             }
         });
         viewPager.setAdapter(sectionsPagerAdapter);
@@ -51,7 +50,7 @@ public class NoteActivity extends AppCompatActivity {
     }
 
     private void saveChanges() {
-        NoteEditor.getInstance().getEditedNote().content = sectionsPagerAdapter.getText();
+        NoteEditor.getInstance().getEditedNote().content = sectionsPagerAdapter.getTextOfEditor();
         NoteEditor.getInstance().saveEdited();
     }
 }

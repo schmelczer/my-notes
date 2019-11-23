@@ -16,14 +16,14 @@ import java.util.Objects;
 import hu.bme.mynotes.MainActivity;
 import hu.bme.mynotes.R;
 import hu.bme.mynotes.data.Note;
-import hu.bme.mynotes.helper.ColorHelpers;
+import hu.bme.mynotes.helper.ColorHelper;
 import io.noties.markwon.Markwon;
 
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
     private final List<Note> notes = new ArrayList<>();
-    private Markwon markwon;
     private OpenNoteListener listener;
+    private Markwon markwon;
 
     public NoteAdapter(MainActivity listener) {
         this.listener = listener;
@@ -89,15 +89,15 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
             for (String tag : note.getTags()) {
                 View parent = ((LayoutInflater) (
-                                Objects.requireNonNull(
-                                        ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE)
-                                )
-                        )).inflate(
+                        Objects.requireNonNull(
+                                ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE)
+                        )
+                )).inflate(
                         R.layout.tag, tagContainer, false
                 );
 
                 TextView tagView = parent.findViewById(R.id.tag);
-                tagView.setText(ColorHelpers.formatTag(ctx, tag));
+                tagView.setText(ColorHelper.formatTag(tag));
                 tagContainer.addView(parent);
             }
         }

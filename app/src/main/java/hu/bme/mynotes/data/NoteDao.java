@@ -8,6 +8,7 @@ import androidx.room.Update;
 
 import java.util.List;
 
+
 @Dao
 public interface NoteDao {
     @Query("SELECT * FROM notes")

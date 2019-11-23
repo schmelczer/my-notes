@@ -12,11 +12,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import hu.bme.mynotes.R;
-import hu.bme.mynotes.helper.ColorHelpers;
+import hu.bme.mynotes.helper.ColorHelper;
 import io.noties.markwon.AbstractMarkwonPlugin;
 import io.noties.markwon.Markwon;
 import io.noties.markwon.core.MarkwonTheme;
-import io.noties.markwon.image.glide.GlideImagesPlugin;
+import io.noties.markwon.image.ImagesPlugin;
+
 
 public class ViewFragment extends Fragment {
     private String text;
@@ -35,14 +36,14 @@ public class ViewFragment extends Fragment {
                 .usePlugin(new AbstractMarkwonPlugin() {
                     @Override
                     public void configureTheme(@NonNull MarkwonTheme.Builder builder) {
-                        builder.linkColor(ColorHelpers.getBrightColor())
-                                .blockQuoteColor(ColorHelpers.getBrightColor())
-                                .listItemColor(ColorHelpers.getBrightColor())
+                        builder.linkColor(ColorHelper.getBrightColor())
+                                .blockQuoteColor(ColorHelper.getBrightColor())
+                                .listItemColor(ColorHelper.getBrightColor())
                                 .headingBreakHeight(0);
 
                     }
                 })
-                .usePlugin(GlideImagesPlugin.create(container.getContext()))
+                .usePlugin(ImagesPlugin.create())
                 .build();
 
         return inflater.inflate(R.layout.fragment_view, container, false);
@@ -51,14 +52,12 @@ public class ViewFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         textContainer = view.findViewById(R.id.textContainer);
-        if (text != null) {
-            markwon.setMarkdown(textContainer, text);
-        }
+        setText(text);
     }
 
-    public void setText(String text) {
+    void setText(String text) {
         this.text = text;
-        if (textContainer != null) {
+        if (textContainer != null && text != null) {
             markwon.setMarkdown(textContainer, text);
         }
     }

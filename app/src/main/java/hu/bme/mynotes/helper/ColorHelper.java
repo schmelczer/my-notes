@@ -8,14 +8,15 @@ import androidx.core.content.ContextCompat;
 
 import hu.bme.mynotes.R;
 
-public abstract class ColorHelpers {
+
+public abstract class ColorHelper {
     private static Integer brightColor;
 
     public static void init(Context ctx) {
         brightColor = ContextCompat.getColor(ctx, R.color.colorPrimaryBright);
     }
 
-    public static Spanned formatTag(Context ctx, String tagName) {
+    public static Spanned formatTag(String tagName) {
         return Html.fromHtml(String.format(
                 "<font color=\"#%s\">#</font><i>%s</i>",
                 Integer.toHexString(
@@ -28,8 +29,11 @@ public abstract class ColorHelpers {
 
     public static int getBrightColor() {
         if (brightColor == null) {
-            throw new RuntimeException("Uninitialized");
+            throw new RuntimeException(
+                    String.format("%s is uninitialized", ColorHelper.class.getSimpleName())
+            );
         }
+
         return brightColor;
     }
 }

@@ -2,6 +2,7 @@ package hu.bme.mynotes.editor;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
@@ -10,27 +11,28 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import hu.bme.mynotes.R;
 
+
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public static final int EDIT_PAGE = 0;
     public static final int VIEW_PAGE = 1;
+
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
     private final Context mContext;
-    private EditFragment edit;
-    private ViewFragment view;
+    private EditFragment edit = new EditFragment();
+    private ViewFragment view = new ViewFragment();
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
-        super(fm);
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mContext = context;
-        edit = new EditFragment();
-        view = new ViewFragment();
     }
 
+    @NonNull
     @Override
     public Fragment getItem(int position) {
-        if (position == 0) {
+        if (position == EDIT_PAGE) {
             return edit;
-        } else if (position == 1) {
+        } else if (position == VIEW_PAGE) {
             return view;
         }
 
@@ -48,11 +50,11 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         return TAB_TITLES.length;
     }
 
-    public String getText() {
+    public String getTextOfEditor() {
         return edit.getText();
     }
 
-    public void setText(String text) {
+    public void setTextForView(String text) {
         view.setText(text);
     }
 

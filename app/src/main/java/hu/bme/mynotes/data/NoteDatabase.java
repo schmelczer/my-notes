@@ -3,6 +3,7 @@ package hu.bme.mynotes.data;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
+
 @Database(
         entities = {Note.class},
         version = 6,

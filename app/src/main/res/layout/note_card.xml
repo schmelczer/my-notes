@@ -1,55 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:paddingBottom="@dimen/extra_large_margin"
     android:weightSum="4">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/noteBody"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="3"
-        android:id="@+id/noteBody">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/noteTitle"
-            android:textSize="@dimen/large_font"
-            android:paddingBottom="0dp"
-            android:layout_marginBottom="@dimen/small_margin"
             android:layout_width="match_parent"
-            android:includeFontPadding="false"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/small_margin"
+            android:includeFontPadding="false"
+            android:paddingBottom="0dp"
+            android:textSize="@dimen/large_font"
             tools:text="A rather long titlelorem ipsum dolor multiline for my note" />
 
         <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/tags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:flexDirection="row"
-            app:justifyContent="flex_start"
             app:alignItems="center"
-            android:id="@+id/tags"
-            app:flexWrap="wrap">
+            app:flexDirection="row"
+            app:flexWrap="wrap"
+            app:justifyContent="flex_start">
 
         </com.google.android.flexbox.FlexboxLayout>
 
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:weightSum="2"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
         <ImageButton
             android:id="@+id/editButton"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/ic_edit" />
@@ -57,10 +58,10 @@
         <ImageButton
             android:id="@+id/deleteButton"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
+            android:layout_weight="1"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/ic_delete" />
