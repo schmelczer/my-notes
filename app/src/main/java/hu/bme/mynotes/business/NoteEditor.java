@@ -15,18 +15,15 @@ import hu.bme.mynotes.adapter.NoteAdapter;
 import hu.bme.mynotes.data.Note;
 import hu.bme.mynotes.data.NoteDao;
 
+
 public class NoteEditor {
     private static NoteEditor instance = null;
 
     private List<Note> notes;
     private Set<String> selectedTags;
-    private Set<String> tags;
-
     private OnTagsChanged listener;
-
     private NoteDao dao;
     private NoteAdapter adapter;
-
     private Note editedNote;
 
     private NoteEditor(NoteDao dao, NoteAdapter adapter, OnTagsChanged listener) {
@@ -70,10 +67,10 @@ public class NoteEditor {
     }
 
     private void setNotes(List<Note> notes) {
-        this.tags = new HashSet<>();
+        Set<String> tags = new HashSet<>();
 
         for (Note n : notes) {
-            this.tags.addAll(n.getTags());
+            tags.addAll(n.getTags());
         }
         Collections.sort(notes, (n1, n2) -> n1.getTitle().compareToIgnoreCase(n2.getTitle()));
 

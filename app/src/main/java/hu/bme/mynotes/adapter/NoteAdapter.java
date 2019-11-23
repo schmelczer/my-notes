@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import hu.bme.mynotes.MainActivity;
 import hu.bme.mynotes.R;
@@ -18,16 +19,15 @@ import hu.bme.mynotes.data.Note;
 import hu.bme.mynotes.helper.ColorHelpers;
 import io.noties.markwon.Markwon;
 
-public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
-    private final List<Note> notes;
-    private Markwon markwon;
 
+public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
+    private final List<Note> notes = new ArrayList<>();
+    private Markwon markwon;
     private OpenNoteListener listener;
 
     public NoteAdapter(MainActivity listener) {
         this.listener = listener;
         markwon = Markwon.create(listener);
-        notes = new ArrayList<>();
     }
 
     @NonNull
@@ -42,7 +42,9 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
         Note note = notes.get(position);
-        holder.titleView.setText(markwon.toMarkdown(note.getTitle()));
+        holder.titleView.setText(
+                markwon.toMarkdown(note.getTitle())
+        );
         holder.note = note;
         holder.drawTags();
     }
@@ -50,16 +52,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     @Override
     public int getItemCount() {
         return notes.size();
-    }
-
-    public void add(Note note) {
-        notes.add(note);
-        notifyItemInserted(notes.size() - 1);
-    }
-
-    public void remove(Note note) {
-        notes.remove(note);
-        notifyDataSetChanged();
     }
 
     public void update(List<Note> notes) {
@@ -91,19 +83,16 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             view.findViewById(R.id.editButton).setOnClickListener(v -> listener.editNote(note));
         }
 
-        public void drawTags() {
+        void drawTags() {
             tagContainer.removeAllViews();
             Context ctx = tagContainer.getContext();
 
-            int i = 0;
             for (String tag : note.getTags()) {
-                if (++i > 3) {
-                    break;
-                }
-
-                View parent = (
-                        (LayoutInflater) (ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                ).inflate(
+                View parent = ((LayoutInflater) (
+                                Objects.requireNonNull(
+                                        ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE)
+                                )
+                        )).inflate(
                         R.layout.tag, tagContainer, false
                 );
 

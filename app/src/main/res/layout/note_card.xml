@@ -32,7 +32,7 @@
             app:justifyContent="flex_start"
             app:alignItems="center"
             android:id="@+id/tags"
-            app:flexWrap="nowrap">
+            app:flexWrap="wrap">
 
         </com.google.android.flexbox.FlexboxLayout>
 
