@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My notes</string>
+    <string name="app_name">My Notes</string>
     <string name="title_activity_note">Notes</string>
     <string name="tab_text_1">Edit</string>
     <string name="tab_text_2">View</string>

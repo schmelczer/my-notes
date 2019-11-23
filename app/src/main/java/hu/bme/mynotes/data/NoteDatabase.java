@@ -62,7 +62,7 @@ public abstract class NoteDatabase extends RoomDatabase {
     private static Note getSeed() {
         Note noteWelcome = new Note();
         noteWelcome.content =
-                "# Welcome to **My notes**!\n\n" +
+                "# Welcome to **My Notes**!\n\n" +
                 "With the help of [Markwon](https://github.com/noties/Markwon) you are able to use " +
                 "markdown in your notes.\n" +
                 "There is even support for pictures, how cool is that?\n" +
