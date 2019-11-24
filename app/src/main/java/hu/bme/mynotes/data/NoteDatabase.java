@@ -63,15 +63,15 @@ public abstract class NoteDatabase extends RoomDatabase {
         Note noteWelcome = new Note();
         noteWelcome.content =
                 "# Welcome to **My Notes**!\n\n" +
-                "With the help of [Markwon](https://github.com/noties/Markwon) you are able to use " +
-                "markdown in your notes.\n" +
-                "There is even support for pictures, how cool is that?\n" +
-                "![some notes](https://i.imgur.com/3iG7fsQ.jpg)\n\n" +
-                "With the help of #hashtags, you can **tag and filter** your #notes.\n\n" +
-                "Hope you'll enjoy using it:\n" +
-                "- [ ] Thank you!\n" +
-                "- [ ] Of course!\n\n" +
-                "> _Created by András Schmelczer_";
+                        "With the help of [Markwon](https://github.com/noties/Markwon) you are able to use " +
+                        "markdown in your notes.\n" +
+                        "There is even support for pictures, how cool is that?\n\n" +
+                        "![some notes](https://i.imgur.com/3iG7fsQ.jpg)\n\n" +
+                        "With the help of #hashtags, you can **tag and filter** your #notes.\n\n" +
+                        "Hope you'll enjoy using it:\n" +
+                        "- [ ] Thank you!\n" +
+                        "- [ ] Of course!\n\n" +
+                        "> _Created by András Schmelczer_";
         return noteWelcome;
     }
 

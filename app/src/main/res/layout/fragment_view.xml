@@ -9,6 +9,5 @@
         android:id="@+id/textContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="@dimen/large_margin"
-        android:paddingBottom="@dimen/large_margin" />
+        android:padding="@dimen/large_margin" />
 </FrameLayout>

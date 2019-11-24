@@ -1,15 +1,19 @@
 package hu.bme.mynotes.editor;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import java.util.Objects;
 
 import hu.bme.mynotes.R;
 import hu.bme.mynotes.helper.ColorHelper;
@@ -26,10 +30,6 @@ public class ViewFragment extends Fragment {
     private String text;
     private Markwon markwon;
     private TextView textContainer;
-
-    public ViewFragment() {
-    }
-
 
     @Override
     public View onCreateView(
@@ -53,6 +53,16 @@ public class ViewFragment extends Fragment {
                 .build();
 
         return inflater.inflate(R.layout.fragment_view, container, false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        final InputMethodManager imm = (InputMethodManager) Objects.requireNonNull(getActivity())
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(Objects.requireNonNull(getView()).getWindowToken(), 0);
+        }
     }
 
     @Override
