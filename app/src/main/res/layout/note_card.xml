@@ -6,13 +6,14 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:paddingBottom="@dimen/extra_large_margin"
-    android:weightSum="4">
+    android:weightSum="4"
+    android:baselineAligned="false">
 
     <LinearLayout
         android:id="@+id/noteBody"
         android:layout_width="0dp"
-        android:layout_weight="3"
         android:layout_height="match_parent"
+        android:layout_weight="3"
         android:orientation="vertical">
 
         <TextView
@@ -31,8 +32,8 @@
             app:alignItems="center"
             app:flexDirection="row"
             app:flexWrap="wrap"
-            app:justifyContent="flex_start">
-        </com.google.android.flexbox.FlexboxLayout>
+            app:justifyContent="flex_start"
+        />
     </LinearLayout>
 
     <com.google.android.flexbox.FlexboxLayout
@@ -42,22 +43,38 @@
         app:alignItems="center"
         app:flexDirection="row"
         app:flexWrap="wrap"
-        app:justifyContent="space_around"
-    >
+        app:justifyContent="space_around">
+
         <ImageButton
             android:id="@+id/editButton"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:maxWidth="@dimen/icon_size"
+            android:paddingStart="@dimen/small_margin"
+            android:paddingTop="0dp"
+            android:paddingEnd="0dp"
+            android:paddingBottom="0dp"
             android:scaleType="centerInside"
-            app:srcCompat="@drawable/ic_edit" />
+            app:layout_flexGrow="1"
+            app:srcCompat="@drawable/ic_edit"
+            android:contentDescription="@string/edit" />
 
         <ImageButton
             android:id="@+id/deleteButton"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:maxWidth="@dimen/icon_size"
+            android:paddingStart="@dimen/small_margin"
+            android:paddingTop="0dp"
+            android:paddingEnd="0dp"
+            android:paddingBottom="0dp"
             android:scaleType="centerInside"
-            app:srcCompat="@drawable/ic_delete" />
+            app:layout_flexGrow="1"
+            app:srcCompat="@drawable/ic_delete"
+            android:contentDescription="@string/delete" />
     </com.google.android.flexbox.FlexboxLayout>
 </LinearLayout>

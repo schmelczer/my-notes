@@ -11,4 +11,6 @@
     <string name="choose_directory">Choose a location</string>
     <string name="undo">Undo</string>
     <string name="something_went_wrong">Something went wrong :(</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 </resources>

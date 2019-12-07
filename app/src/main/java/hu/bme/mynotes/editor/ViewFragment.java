@@ -3,6 +3,7 @@ package hu.bme.mynotes.editor;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ public class ViewFragment extends Fragment {
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState
     ) {
+        Log.d("alma2", "oncreateView");
         markwon = Markwon.builder(container.getContext())
                 .usePlugin(new AbstractMarkwonPlugin() {
                     @Override
@@ -67,14 +69,26 @@ public class ViewFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        textContainer = view.findViewById(R.id.textContainer);
-        setText(text);
+        Log.d("alma2", "onViewCreated ");
+
+        this.textContainer = view.findViewById(R.id.textContainer);
+        Log.d("alma2", String.valueOf(textContainer));
+
+        Log.d("alma", "view onViewCreate, text is " + text);
+        setText(this.text);
     }
 
     void setText(String text) {
-        this.text = text;
-        if (textContainer != null && text != null) {
-            markwon.setMarkdown(textContainer, text);
+        Log.d("alma", "view set text: " + text + " " + this.hashCode());
+
+        if (text != this.text) {
+            this.text = text;
+        }
+
+        Log.d("alma", "tc: " + textContainer + text);
+        if (textContainer != null && this.text != null) {
+            markwon.setMarkdown(textContainer, this.text);
+            Log.d("alma", "after md " + textContainer.toString());
         }
     }
 }

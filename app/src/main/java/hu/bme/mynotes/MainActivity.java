@@ -41,8 +41,8 @@ import hu.bme.mynotes.helper.ColorHelper;
 public class MainActivity extends AppCompatActivity implements NoteAdapter.OpenNoteListener, NoteEditor.OnTagsChanged {
     public final static String NOTE_KEY = "note";
     public final static String NOTE_VALUE_OPEN = "open";
-    private static final int IMPORT_LOCATION_REQUEST = 8777;
-    private static final int EXPORT_LOCATION_REQUEST = 9999;
+    private final static int IMPORT_LOCATION_REQUEST = 8777;
+    private final static int EXPORT_LOCATION_REQUEST = 9999;
 
     private Set<String> knownTags = new HashSet<>();
     private ViewGroup tagsContainer;

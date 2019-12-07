@@ -62,7 +62,11 @@ public class NoteEditor {
     }
 
     public Set<String> getSelectedTags() {
-        return selectedTags;
+        return Collections.unmodifiableSet(selectedTags);
+    }
+
+    public void setSelectedTags(Set<String> selectedTags) {
+        this.selectedTags = selectedTags;
     }
 
     public List<Note> getNotes() {
