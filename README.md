@@ -1,6 +1,7 @@
 # MyNotes
 
-![overview](resources/notes.png | width=100) ![note](resources/note.png | width=100)
+<img src="resources/notes.png" with="100" alt="overview" />
+<img src="resources/note.png" with="100" alt="note-view" />
 
 A basic android app for creating and filtering notes written in markdown.
 The app's main functionality comes from [Markwon](https://github.com/noties/Markwon).
