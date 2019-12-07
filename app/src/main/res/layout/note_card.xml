@@ -11,8 +11,8 @@
     <LinearLayout
         android:id="@+id/noteBody"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
         android:layout_weight="3"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <TextView
@@ -21,9 +21,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/small_margin"
             android:includeFontPadding="false"
-            android:paddingBottom="0dp"
             android:textSize="@dimen/large_font"
-            tools:text="A rather long titlelorem ipsum dolor multiline for my note" />
+            tools:text="A rather long title lorem ipsum dolor multiline for my note" />
 
         <com.google.android.flexbox.FlexboxLayout
             android:id="@+id/tags"
@@ -33,37 +32,32 @@
             app:flexDirection="row"
             app:flexWrap="wrap"
             app:justifyContent="flex_start">
-
         </com.google.android.flexbox.FlexboxLayout>
-
     </LinearLayout>
 
-    <LinearLayout
+    <com.google.android.flexbox.FlexboxLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="horizontal"
-        android:weightSum="2">
-
+        app:alignItems="center"
+        app:flexDirection="row"
+        app:flexWrap="wrap"
+        app:justifyContent="space_around"
+    >
         <ImageButton
             android:id="@+id/editButton"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/ic_edit" />
 
         <ImageButton
             android:id="@+id/deleteButton"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/ic_delete" />
-    </LinearLayout>
+    </com.google.android.flexbox.FlexboxLayout>
 </LinearLayout>

@@ -97,6 +97,11 @@ public class NoteEditor {
     private void showNotes() {
         List<Note> shownNotes = new ArrayList<>();
         for (Note n : notes) {
+            if (n.getTags().size() == 0) {
+                shownNotes.add(n);
+                continue;
+            }
+
             for (String tag : n.getTags()) {
                 if (selectedTags.contains(tag)) {
                     shownNotes.add(n);

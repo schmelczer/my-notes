@@ -30,6 +30,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
+        setTextForView(getTextOfEditor());
+
         if (position == EDIT_PAGE) {
             return edit;
         } else if (position == VIEW_PAGE) {
