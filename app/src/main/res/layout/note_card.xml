@@ -43,37 +43,35 @@
         app:alignItems="center"
         app:flexDirection="row"
         app:flexWrap="wrap"
-        app:justifyContent="space_around">
+        app:justifyContent="flex_end">
 
         <ImageButton
             android:id="@+id/editButton"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:maxWidth="@dimen/icon_size"
+            android:layout_width="@dimen/icon_size"
             android:paddingStart="@dimen/small_margin"
             android:paddingTop="0dp"
             android:paddingEnd="0dp"
             android:paddingBottom="0dp"
             android:scaleType="centerInside"
-            app:layout_flexGrow="1"
+            app:layout_flexShrink="1"
             app:srcCompat="@drawable/ic_edit"
             android:contentDescription="@string/edit" />
 
         <ImageButton
             android:id="@+id/deleteButton"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/icon_size"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:maxWidth="@dimen/icon_size"
             android:paddingStart="@dimen/small_margin"
             android:paddingTop="0dp"
             android:paddingEnd="0dp"
             android:paddingBottom="0dp"
             android:scaleType="centerInside"
-            app:layout_flexGrow="1"
+            app:layout_flexShrink="1"
             app:srcCompat="@drawable/ic_delete"
             android:contentDescription="@string/delete" />
     </com.google.android.flexbox.FlexboxLayout>

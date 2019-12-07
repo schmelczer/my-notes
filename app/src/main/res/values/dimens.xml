@@ -5,5 +5,5 @@
     <dimen name="small_margin">12dp</dimen>
     <dimen name="large_font">20sp</dimen>
     <dimen name="medium_font">16sp</dimen>
-    <dimen name="icon_size">42dp</dimen>
+    <dimen name="icon_size">32dp</dimen>
 </resources>
